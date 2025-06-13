@@ -1,0 +1,29 @@
+import cv2
+import numpy as np
+
+# Load a pre-trained object detection model (e.g., YOLOv5 or SSD)
+# model = load_pretrained_model()
+
+def detect_objects(frame):
+    # Simulate object detection results
+    detections = [
+        {"label": "Person", "bbox": (100, 100, 200, 300), "confidence": 0.94},
+        {"label": "Knife", "bbox": (150, 250, 170, 270), "confidence": 0.88}
+    ]
+    return detections
+
+def draw_detections(frame, detections):
+    for obj in detections:
+        x1, y1, x2, y2 = obj["bbox"]
+        color = (0, 255, 0) if obj["label"] == "Person" else (0, 0, 255)
+        cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+        cv2.putText(frame, obj["label"], (x1, y1 - 5),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
+    return frame
+
+# Load frame (e.g., from a video feed)
+frame = np.ones((400, 600, 3), dtype=np.uint8) * 255
+detections = detect_objects(frame)
+output_frame = draw_detections(frame, detections)
+
+cv2.imwrite("crime_detection_output.jpg", output_frame)
